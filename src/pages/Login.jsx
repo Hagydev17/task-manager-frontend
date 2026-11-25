@@ -7,7 +7,7 @@ import Alert from '../components/Alert'
 const linkClass =
   'font-medium text-zinc-200 underline-offset-4 transition-colors hover:text-white hover:underline focus-visible:underline focus-visible:outline-none'
 
-export default function Login({ onGoToRegister, onLoggedIn, successMessage }) {
+export default function Login({ onGoToRegister, onLoggedIn, notice }) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -54,7 +54,7 @@ export default function Login({ onGoToRegister, onLoggedIn, successMessage }) {
       }
     >
       <form onSubmit={handleSubmit} className="space-y-4">
-        {successMessage && <Alert variant="success">{successMessage}</Alert>}
+        {notice && <Alert variant={notice.variant}>{notice.text}</Alert>}
         {error && <Alert>{error}</Alert>}
 
         <TextField

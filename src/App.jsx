@@ -1,19 +1,26 @@
 import { useState } from 'react'
+import { getToken, getUserIdFromToken } from './api'
 import Login from './pages/Login'
 import Register from './pages/Register'
-import Home from './pages/Home'
+import Tasks from './pages/Tasks'
 
 export default function App() {
-  const [view, setView] = useState(() => (localStorage.getItem('token') ? 'home' : 'login'))
-  const [successMessage, setSuccessMessage] = useState('')
+  const [view, setView] = useState(() => (getUserIdFromToken(getToken()) ? 'tasks' : 'login'))
+  const [notice, setNotice] = useState(null)
 
-  if (view === 'home') {
+  const goToLogin = (newNotice = null) => {
+    localStorage.removeItem('token')
+    setNotice(newNotice)
+    setView('login')
+  }
+
+  if (view === 'tasks') {
     return (
-      <Home
-        onLogout={() => {
-          localStorage.removeItem('token')
-          setView('login')
-        }}
+      <Tasks
+        onLogout={() => goToLogin()}
+        onSessionExpired={() =>
+          goToLogin({ variant: 'error', text: 'Tu sesión terminó. Inicia sesión de nuevo.' })
+        }
       />
     )
   }
@@ -21,9 +28,12 @@ export default function App() {
   if (view === 'register') {
     return (
       <Register
-        onGoToLogin={() => setView('login')}
+        onGoToLogin={() => {
+          setNotice(null)
+          setView('login')
+        }}
         onRegistered={() => {
-          setSuccessMessage('Cuenta creada. Ya puedes iniciar sesión.')
+          setNotice({ variant: 'success', text: 'Cuenta creada. Ya puedes iniciar sesión.' })
           setView('login')
         }}
       />
@@ -32,13 +42,13 @@ export default function App() {
 
   return (
     <Login
-      successMessage={successMessage}
+      notice={notice}
       onLoggedIn={() => {
-        setSuccessMessage('')
-        setView('home')
+        setNotice(null)
+        setView('tasks')
       }}
       onGoToRegister={() => {
-        setSuccessMessage('')
+        setNotice(null)
         setView('register')
       }}
     />

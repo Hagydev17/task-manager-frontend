@@ -1,3 +1,4 @@
+import Brand from './Brand'
 import TaskIllustration from './TaskIllustration'
 
 const features = [
@@ -28,26 +29,6 @@ const previewTasks = [
   { title: 'Pagar el recibo de luz', status: 'Pendiente', tone: 'bg-amber-500/10 text-amber-300 ring-amber-500/20' },
   { title: 'Responder correos del cliente', status: 'Completada', tone: 'bg-emerald-500/10 text-emerald-300 ring-emerald-500/20', done: true },
 ]
-
-function Logo({ size = 'md' }) {
-  const box = size === 'sm' ? 'h-8 w-8 rounded-lg' : 'h-10 w-10 rounded-xl'
-  return (
-    <div className={`flex shrink-0 items-center justify-center bg-white shadow-lg shadow-white/5 ${box}`}>
-      <svg viewBox="0 0 24 24" className="h-1/2 w-1/2 text-zinc-950" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-        <path d="M5 12.5l4.5 4.5L19 7.5" />
-      </svg>
-    </div>
-  )
-}
-
-function Brand() {
-  return (
-    <div className="flex items-center gap-3">
-      <Logo />
-      <span className="text-base font-semibold tracking-tight text-white">Task Manager</span>
-    </div>
-  )
-}
 
 function FeatureIcon({ children }) {
   return (

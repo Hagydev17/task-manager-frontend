@@ -19,7 +19,7 @@ function EyeIcon({ open }) {
   )
 }
 
-export default function TextField({ id, label, type = 'text', error, hint, ...inputProps }) {
+export default function TextField({ id, label, type = 'text', multiline = false, error, hint, ...inputProps }) {
   const [visible, setVisible] = useState(false)
   const isPassword = type === 'password'
   const message = error || hint
@@ -36,14 +36,24 @@ export default function TextField({ id, label, type = 'text', error, hint, ...in
       </label>
 
       <div className="relative">
-        <input
-          id={id}
-          type={isPassword && visible ? 'text' : type}
-          aria-invalid={error ? true : undefined}
-          aria-describedby={messageId}
-          className={`w-full rounded-lg border bg-zinc-950/60 px-3.5 py-2.5 text-sm text-white placeholder-zinc-600 transition focus:outline-none focus:ring-4 ${stateClass} ${isPassword ? 'pr-11' : ''}`}
-          {...inputProps}
-        />
+        {multiline ? (
+          <textarea
+            id={id}
+            aria-invalid={error ? true : undefined}
+            aria-describedby={messageId}
+            className={`block min-h-20 w-full resize-y rounded-lg border bg-zinc-950/60 px-3.5 py-2.5 text-sm text-white placeholder-zinc-600 transition focus:outline-none focus:ring-4 ${stateClass}`}
+            {...inputProps}
+          />
+        ) : (
+          <input
+            id={id}
+            type={isPassword && visible ? 'text' : type}
+            aria-invalid={error ? true : undefined}
+            aria-describedby={messageId}
+            className={`w-full rounded-lg border bg-zinc-950/60 px-3.5 py-2.5 text-sm text-white placeholder-zinc-600 transition focus:outline-none focus:ring-4 ${stateClass} ${isPassword ? 'pr-11' : ''}`}
+            {...inputProps}
+          />
+        )}
 
         {isPassword && (
           <button
